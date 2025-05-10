@@ -11,9 +11,9 @@ void create_menu()
 }
 
 void decide_who_goes_first(Player* user, Player* Opponent, int* User, int* AI)
-{   
-  *User = 0;
- *AI = 0;
+{
+    *User = 0;
+    *AI = 0;
     int choice = 0;
     do
     {
@@ -23,14 +23,14 @@ void decide_who_goes_first(Player* user, Player* Opponent, int* User, int* AI)
         printf("3. Randomize\n");
         printf("Select your choice 1-3: \n");
         scanf("%d", &choice);
-        
+
         if (choice == 1)
         {
             *User = 1;
             *AI = 0;
 
             printf("User (YOU) is starting first. . .\n");
-           
+
         }
         else if (choice == 2)
         {
@@ -89,21 +89,22 @@ void image_faces()
     printf("    |__________|    \n");
 }
 
-void game_logic_round(Player* user, Player* Opponent, int* User, int* AI, int* round)
+void game_logic(Player* user, Player* Opponent, int* User, int* AI, int* round)
 {
     char choice = '\0';
     int pick = 0;
     int userDamageReductionActive = 0;
     int opponentDamageReductionActive = 0;
-    *round = 1;
+    int Xp= 0;
 
-    user->health = 100.0;
-    Opponent->health = 100.0;
+    // Ensure health is reset to maxHealth at the start
+    user->health = user->maxHealth;
+    Opponent->health = Opponent->maxHealth;
 
     do
     {
         printf("=== Round %d ===\n", *round);
-        image_faces(); 
+        image_faces();
         printf("User health: %.2f, Opponent health: %.2f\n", user->health, Opponent->health);
 
         if (*User == 1)
@@ -132,9 +133,9 @@ void game_logic_round(Player* user, Player* Opponent, int* User, int* AI, int* r
             if (selectedItem == HEALTH)
             {
                 user->health += 50;
-                if (user->health > 100)
+                if (user->health > user->maxHealth)
                 {
-                    user->health = 100;
+                    user->health = user->maxHealth;
                 }
                 printf("Your health increased to: %.2f\n", user->health);
             }
@@ -172,9 +173,9 @@ void game_logic_round(Player* user, Player* Opponent, int* User, int* AI, int* r
             if (selectedItem == HEALTH)
             {
                 Opponent->health += 50;
-                if (Opponent->health > 100)
+                if (Opponent->health > Opponent->maxHealth)
                 {
-                    Opponent->health = 100;
+                    Opponent->health = Opponent->maxHealth;
                 }
                 printf("Opponent's health increased to: %.2f\n", Opponent->health);
             }
@@ -214,12 +215,49 @@ void game_logic_round(Player* user, Player* Opponent, int* User, int* AI, int* r
             if (user->health == 0)
             {
                 printf("You lost! Opponent wins.\n");
+                break;
             }
             else
             {
                 printf("You win! Opponent is defeated.\n");
+                user->xp += 25.0;
+                if (user->xp == user->maxxp)
+                {
+                    Xp++;
+                    printf("You have leveled up to Xp level:%d\n", Xp); 
+                    user->xp *= 0;
+                    //MAKE FUNCTION TO GIVE THREE SEPERATE PATHS;
+                   // increase item spot every 5 level || shield at like XPlevel 2 and so on increase by 20
+                }
             }
-            break;
+
+            char pop = '\0';
+            printf("Would you like to continue playing and head to the next level?\n");
+            printf("(Y/N): \n");
+            scanf(" %c", &pop);
+            if (pop == 'Y' || pop == 'y')
+            {
+                if (Opponent->maxHealth > 0 && user->maxHealth > 0)
+                {
+                    user->maxHealth += 10;
+                    Opponent->maxHealth *= 1.25; 
+                }
+                else
+                {
+                    user->maxHealth = 100.0;
+                    Opponent->maxHealth = 100.0; 
+                }
+                Opponent->health = Opponent->maxHealth; 
+                user->health = user->maxHealth; 
+                (*round)++;
+                game_logic(user, Opponent, User, AI, round); 
+                return; 
+            }
+            else if (pop == 'N' || pop == 'n')
+            {
+                printf("Ending game.\n");
+                break;
+            }
         }
 
         if (*User == 1)
