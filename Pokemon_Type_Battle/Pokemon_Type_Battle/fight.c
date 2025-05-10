@@ -3,7 +3,10 @@
 void create_player(Player* user)
 {
     user->health = 100.0;
+    user->maxHealth = 100.0;
     user->xp = 0.0;
+    user->maxxp = 50.0;
+
 
     for (int i = 0; i < 5; i++)
     {
