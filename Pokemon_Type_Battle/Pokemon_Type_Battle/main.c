@@ -3,6 +3,13 @@
 
 int main(void)
 {
+	FILE* infile = fopen("stats.txt", "r");
+	if (!infile)
+	{
+		printf("ERROR OPENING FILE!\n");
+		return 1;
+	}
+
 	srand((unsigned int)time(NULL));
 	Player* Opponent = malloc(sizeof(Player));
 	Player user = { 0 };
@@ -36,8 +43,9 @@ Finish Xp rewarding and loophole.
 save stats if closed, and reopen on previous round closed.
 Add more weapons, idealy like 10 so randomization is more important
 Clean the code readability such as add comments.
+OUTPUTS STATISTICS LIKE WIN RATIO OR SOME B.S.
 
-IN TOTAL(); HAVE FOUR MAIN OBJECTIVES LEFT.
+IN TOTAL(); HAVE FIVE MAIN OBJECTIVES LEFT.
 ANYTHING optional goes into STEPS TO DO.
 THINGS TO COMPLETE THE GAME are required.
 */
