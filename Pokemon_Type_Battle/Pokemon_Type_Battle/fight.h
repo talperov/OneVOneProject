@@ -25,13 +25,13 @@ typedef struct player
 {
 	char name[30];
 	double health;
+	double maxHealth;
 	double xp;
+	double maxxp;
+	double shield;
 	ItemValue items[5];
 }Player;
 
-
-
- 
 void generate_items(Player* user);
 
 void generate_Opponent_items(Player* Opponent); 
@@ -52,13 +52,6 @@ void decide_who_goes_first(Player* user, Player* Opponent, int* User, int* AI);
 
 void image_faces();
 
-void game_logic_round(Player* user, Player* Opponent, int* User, int* AI, int* round); 
-
-
-
-
-
-
-
+void game_logic(Player* user, Player* Opponent, int* User, int* AI, int* round); 
 
 #endif
