@@ -7,13 +7,13 @@ void create_AI_player(Player* Opponent)
     Opponent->name[sizeof(Opponent->name) - 1] = '\0'; // Ensure null-termination
 
     Opponent->health = 100.0;
+    Opponent->maxHealth = 100.0;
     Opponent->xp = 0.0;
 
     generate_Opponent_items(Opponent);
     
     printf("Your ENEMY is %s!\n", Opponent->name);
     printf("Opponents Starting Health: %.2lf\n", Opponent->health);
-    printf("Opponents Xp: %.2lf\n", Opponent->xp);
     printf("Opponents items: ");
 
     for (int i = 0; i < 5; i++)
